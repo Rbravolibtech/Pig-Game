@@ -12,25 +12,38 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
+let scores, currentScore, activePlayer, playing;
+
 // starting conditions this will hide your dice from your page so it does not appear
-score0El.textContent = 0;
-score1El.textContent = 0;
-diceEl.classList.add('hidden');
 
-// This code let you click the ROLL DICE AND IT WILL KEEP TRACK OF PLAYER ONE CURRENT SCORE
-const scores = [0, 0];
-let currentScore = 0;
-let activePlayer = 0;
-let playing = true;
+const start = function () {
+  // This code let you click the ROLL DICE AND IT WILL KEEP TRACK OF PLAYER ONE CURRENT SCORE
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  playing = true;
 
-const switchPlayer = function () {
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  current0El.textContent = 0;
+  current1El.textContent = 0;
+
+  diceEl.classList.add('hidden');
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
+};
+start();
+
+function switchPlayer() {
   document.getElementById(`current--${activePlayer}`).textContent = 0;
   currentScore = 0;
   activePlayer = activePlayer === 0 ? 1 : 0;
   // // This code makes it so the color will change when one player gets on the dice 1 the next player will go this will highlight which player is currently playing
   player0El.classList.toggle('player--active');
   player1El.classList.toggle('player--active');
-};
+}
 
 // Rolling dice functionality
 btnRoll.addEventListener('click', function () {
@@ -68,7 +81,7 @@ btnHold.addEventListener('click', function () {
 
     //2. Check if player's score is >= 100
 
-    if (scores[activePlayer] >= 20) {
+    if (scores[activePlayer] >= 100) {
       //Finish the game
       playing = false;
       diceEl.classList.add('hidden');
@@ -84,3 +97,5 @@ btnHold.addEventListener('click', function () {
     }
   }
 });
+
+btnNew.addEventListener('click', start);
